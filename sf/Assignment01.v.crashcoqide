@@ -12,28 +12,24 @@ Definition admit {T: Type} : T.  Admitted.
 
 Definition andb2 (b1:bool) (b2:bool) :bool :=
   match b1 with
-  | true => b2
+  | true => b1
   | false => false
-end.
+admit.
 
 Definition andb3 (b1:bool) (b2:bool) (b3:bool) : bool :=
   match b1 with
-  | true =>  andb2 b2 b3
-  | false => false
-   end.
+  | true -> 
+
+   admit.
 
 Example test_andb31:                 (andb3 true true true) = true.
-simpl. reflexivity. Qed.
-
+(* FILL IN HERE *) Admitted.
 Example test_andb32:                 (andb3 false true true) = false.
-simpl. reflexivity. Qed.
-
+(* FILL IN HERE *) Admitted.
 Example test_andb33:                 (andb3 true false true) = false.
-simpl. reflexivity. Qed.
-
+(* FILL IN HERE *) Admitted.
 Example test_andb34:                 (andb3 true true false) = false.
-simpl. reflexivity. Qed.
-
+(* FILL IN HERE *) Admitted.
 (** [] *)
 
 
@@ -54,15 +50,12 @@ Eval compute in 3 * 5.
 Eval compute in 3+5*6.
 
 Fixpoint factorial (n:nat) : nat := 
-match n with
-| 0 => 1
-| S k => n * (factorial k)
-end.
+(* FILL IN HERE *) admit.
 
 Example test_factorial1:          (factorial 3) = 6.
-simpl. reflexivity. Qed.
+(* FILL IN HERE *) Admitted.
 Example test_factorial2:          (factorial 5) = 10 * 12.
-simpl. reflexivity. Qed.
+(* FILL IN HERE *) Admitted.
 (** [] *)
 
 
@@ -71,24 +64,13 @@ simpl. reflexivity. Qed.
 (** The [blt_nat] function tests [nat]ural numbers for [l]ess-[t]han,
     yielding a [b]oolean.  Use [Fixpoint] to define it. *)
 
-Fixpoint blt_nat (n m : nat) : bool :=
-  match n with
-  | 0 => 
-    match m with
-    | 0 => false
-    | S k => true
-    end
-  | S k =>
-    match m with
-    | 0 => false
-    | S l => blt_nat k l
-    end
-end.
+Definition blt_nat (n m : nat) : bool :=
+  (* FILL IN HERE *) admit.
 
 Example test_blt_nat1:             (blt_nat 2 2) = false.
-simpl. reflexivity. Qed.
+(* FILL IN HERE *) Admitted.
 Example test_blt_nat2:             (blt_nat 2 4) = true.
-simpl. reflexivity. Qed.
+(* FILL IN HERE *) Admitted.
 Example test_blt_nat3:             (blt_nat 4 2) = false.
-simpl. reflexivity. Qed.
+(* FILL IN HERE *) Admitted.
 (** [] *)
