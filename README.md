@@ -6,7 +6,7 @@
         * Send emails for personal matters only. Use the issue tracker.
         * DO NOT send emails to jee...@sf.snu.ac.kr.
         * In the case you send TA an email, specify your name and your student ID.
-    + Office Hour: Please email me to make an appointment.
+    + Office Hour: At bldg 301 rm 554-1. Please email me to make an appointment.
 
 ## Announcements ##
 
@@ -22,6 +22,7 @@
 
 | Due        	| Description 	 	 	 	 	 	 	 	 	 	 	 	 	 	| Notes 	|
 |------------	|---------------------------------------------------------------	|-------	|
+| 2015/03/26 14:00 	| [Assignment 02](sf/Assignment_02.v) ([status](https://github.com/snu-sf/pl2015/issues/30)) 	|       	|
 | 2015/03/19 14:00 	| [Assignment 01](sf/Assignment01.v) ([status](https://github.com/snu-sf/pl2015/issues/17)) 	|       	|
 | 2015/03/12 	| Check if your student IDs are correct [here](https://docs.google.com/spreadsheets/d/1LzOLx22lF3N31D9RDS20Ec8ub_Rq6IA3utD8CNMk9CQ/edit#gid=0).	|       	|
 | 2015/03/09 	| Be ready to do homework and submit it.	|       	|
