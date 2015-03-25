@@ -23,16 +23,16 @@ Definition andb3 (b1:bool) (b2:bool) (b3:bool) : bool :=
    end.
 
 Example test_andb31:                 (andb3 true true true) = true.
-simpl. reflexivity. Qed.
+Proof. simpl. reflexivity. Qed.
 
 Example test_andb32:                 (andb3 false true true) = false.
-simpl. reflexivity. Qed.
+Proof. simpl. reflexivity. Qed.
 
 Example test_andb33:                 (andb3 true false true) = false.
-simpl. reflexivity. Qed.
+Proof. simpl. reflexivity. Qed.
 
 Example test_andb34:                 (andb3 true true false) = false.
-simpl. reflexivity. Qed.
+Proof. simpl. reflexivity. Qed.
 
 (** [] *)
 
@@ -60,9 +60,9 @@ match n with
 end.
 
 Example test_factorial1:          (factorial 3) = 6.
-simpl. reflexivity. Qed.
+Proof. simpl. reflexivity. Qed.
 Example test_factorial2:          (factorial 5) = 10 * 12.
-simpl. reflexivity. Qed.
+Proof. simpl. reflexivity. Qed.
 (** [] *)
 
 
@@ -86,9 +86,9 @@ Fixpoint blt_nat (n m : nat) : bool :=
 end.
 
 Example test_blt_nat1:             (blt_nat 2 2) = false.
-simpl. reflexivity. Qed.
+Proof. simpl. reflexivity. Qed.
 Example test_blt_nat2:             (blt_nat 2 4) = true.
-simpl. reflexivity. Qed.
+Proof. simpl. reflexivity. Qed.
 Example test_blt_nat3:             (blt_nat 4 2) = false.
-simpl. reflexivity. Qed.
+Proof. simpl. reflexivity. Qed.
 (** [] *)
