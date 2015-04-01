@@ -180,7 +180,6 @@ Proof.
   rewrite app_assoc.
   rewrite app_assoc.
   reflexivity.
-Qed.
   (* FILL IN HERE *)
 
 Theorem snoc_append : forall (l:natlist) (n:nat),
@@ -289,8 +288,7 @@ Proof.
   - simpl. reflexivity.
   - simpl.
     Lemma beq_nat_refl : forall n, beq_nat n n = true.
-    Proof. induction n as [|n']. simpl. reflexivity. simpl. rewrite IHn'. reflexivity. Qed.
-    rewrite (beq_nat_refl n'). simpl. apply IHl.
+    Proof. induction n as [|n']. simpl. reflexivity. simpl. rewrite IHn'. reflexivity.
 Qed. 
 (** [] *)
 
@@ -317,15 +315,15 @@ Theorem rev_injective: forall l1 l2 : natlist,
   rev l1 = rev l2 -> l1 = l2.
 Proof.
   intros.
-  Lemma inj : forall l1 l2, l1 = l2 -> rev l1 = rev l2.
-  Proof.
-  intros. rewrite H. reflexivity.
-  Qed.
-  apply (inj (rev l1) (rev l2)) in H.
-  rewrite rev_involutive  in H.
-  rewrite rev_involutive in H.
-  apply H.
-Qed.
+  induction l1 as [|n1'].
+  - Lemma rev_nil : rev [] = []. Proof. simpl. reflexivity. Qed.
+    rewrite rev_nil H. 
+  Lemma injective : forall l1 l2, l1 = l2 -> rev l1 = rev l2.
+  Proof. intros. induction l1. as [|n1']. 
+  (* FILL IN HERE *) Admitted.
+
+(** [] *)
+
 
 
 
@@ -346,30 +344,25 @@ Qed.
    have to pass a default element for the [nil] case.  *)
 
 Definition hd_opt (l : natlist) : natoption :=
-  match l with
-  | nil => None
-  | h::t => Some h
-  end.
+  (* FILL IN HERE *) admit.
 
 Example test_hd_opt1 : hd_opt [] = None.
- Proof. simpl. reflexivity. Qed.
+ (* FILL IN HERE *) Admitted.
 
 Example test_hd_opt2 : hd_opt [1] = Some 1.
-Proof. simpl. reflexivity. Qed.
+ (* FILL IN HERE *) Admitted.
 
 Example test_hd_opt3 : hd_opt [5;6] = Some 5.
-Proof. simpl. reflexivity. Qed.
+ (* FILL IN HERE *) Admitted.
+(** [] *)
 
 
 (** This exercise relates your new [hd_opt] to the old [hd]. *)
 Theorem option_elim_hd : forall (l:natlist) (default:nat),
   hd default l = option_elim default (hd_opt l).
 Proof.
-  intros.
-  induction l as [|n'].
-  - simpl. reflexivity.
-  - simpl. reflexivity.
-Qed.
+  (* FILL IN HERE *) Admitted.
+(** [] *)
 
 
 
@@ -478,23 +471,20 @@ Definition snd {X Y : Type} (p : X * Y) : Y :=
 Fixpoint split
            {X Y : Type} (l : list (X*Y))
            : (list X) * (list Y) :=
-    match l with
-    | nil => pair nil nil
-    | h::t =>pair ((fst h)::(fst (split t))) ((snd h)::(snd (split t)))
-    end.
+(* FILL IN HERE *) admit.
+
 Example test_split:
   split [(1,false);(2,false)] = ([1;2],[false;false]).
 Proof.
-  simpl.
-  reflexivity.
- Qed.
+(* FILL IN HERE *) Admitted.
 
 Theorem split_map: forall X Y (l: list (X*Y)),
    fst (split l) = map fst l.
 Proof.
-  intros.
-  induction l as [|n'].
-  -simpl. reflexivity.
-  -simpl. rewrite IHl. simpl. reflexivity.
-Qed.
+(* FILL IN HERE *) Admitted.
+
+(** [] *)
+
+
+
 End Poly.
