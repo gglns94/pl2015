@@ -20,20 +20,17 @@ Definition admit {T: Type} : T.  Admitted.
     programming."  The direct connection between programs and simple
     mathematical objects supports both formal proofs of correctness
     and sound informal reasoning about program behavior.
-
     The other sense in which functional programming is "functional" is
     that it emphasizes the use of functions (or methods) as
     _first-class_ values -- i.e., values that can be passed as
     arguments to other functions, returned as results, stored in data
     structures, etc.  The recognition that functions can be treated as
     data in this way enables a host of useful and powerful idioms.
-
     Other common features of functional languages include _algebraic
     data types_ and _pattern matching_, which make it easy to construct
     and manipulate rich data structures, and sophisticated
     _polymorphic type systems_ that support abstraction and code
     reuse.  Coq shares all of these features.
-
     The first half of this chapter introduces the most essential
     elements of Coq's functional programming language.  The second
     half introduces some basic _tactics_ that can be used to prove
@@ -49,7 +46,6 @@ Definition admit {T: Type} : T.  Admitted.
     strings, etc.), Coq offers an extremely powerful mechanism for
     defining new data types from scratch -- so powerful that all these
     familiar types arise as instances.  
-
     Naturally, the Coq distribution comes with an extensive standard
     library providing definitions of booleans, numbers, and many
     common data structures like lists and hash tables.  But there is
@@ -57,7 +53,6 @@ Definition admit {T: Type} : T.  Admitted.
     are ordinary user code.  To illustrate this, we will explicitly
     recapitulate all the definitions we need in this course, rather
     than just getting them implicitly from the library.
-
     To see how this mechanism works, let's start with a very simple
     example. *)
 
@@ -79,7 +74,6 @@ Inductive day : Type :=
 (** The type is called [day], and its members are [monday],
     [tuesday], etc.  The second and following lines of the definition
     can be read "[monday] is a [day], [tuesday] is a [day], etc."
-
     Having defined [day], we can write functions that operate on
     days. *)
 
@@ -104,7 +98,6 @@ Definition next_weekday (d:day) : day :=
 (** Having defined a function, we should check that it works on
     some examples.  There are actually three different ways to do this
     in Coq.  
-
     First, we can use the command [Eval compute] to evaluate a
     compound expression involving [next_weekday].  *)
 
@@ -324,19 +317,15 @@ Inductive nat : Type :=
       - [S] is a "constructor" that takes a natural number and yields
         another one -- that is, if [n] is a natural number, then [S n]
         is too.
-
     Let's look at this in a little more detail.  
-
     Every inductively defined set ([day], [nat], [bool], etc.) is
     actually a set of _expressions_.  The definition of [nat] says how
     expressions in the set [nat] can be constructed:
-
     - the expression [O] belongs to the set [nat]; 
     - if [n] is an expression belonging to the set [nat], then [S n]
       is also an expression belonging to the set [nat]; and
     - expressions formed in these two ways are the only ones belonging
       to the set [nat].
-
     The same rules apply for our definitions of [day] and [bool]. The
     annotations we used for their constructors are analogous to the
     one for the [O] constructor, and indicate that each of those
@@ -348,7 +337,6 @@ Inductive nat : Type :=
     [S (S (S O))], and so on all belong to the set [nat], while other
     expressions like [true], [andb true false], and [S (S false)] do
     not.
-
     We can write simple functions that pattern match on natural
     numbers just as we did above -- for example, the predecessor
     function: *)
@@ -592,7 +580,6 @@ Example test_blt_nat3:             (blt_nat 4 2) = false.
     about the behavior of some function on some particular inputs.
     The proofs of these claims were always the same: use [reflexivity] 
     to check that both sides of the [=] simplify to identical values. 
-
     (By the way, it will be useful later to know that
     [reflexivity] actually does somewhat more simplification than [simpl] 
     does -- for example, it tries "unfolding" defined terms, replacing them with
@@ -602,7 +589,6 @@ Example test_blt_nat3:             (blt_nat 4 2) = false.
     found; by contrast, [simpl] is used in situations where we may
     have to read and understand the new goal, so we would not want it
     blindly expanding definitions.) 
-
     The same sort of "proof by simplification" can be used to prove
     more interesting properties as well.  For example, the fact that
     [0] is a "neutral element" for [+] on the left can be proved
@@ -622,13 +608,11 @@ Proof.
 
 (** The form of this theorem and proof are almost exactly the
     same as the examples above; there are just a few differences.
-
     First, we've used the keyword [Theorem] instead of
     [Example].  Indeed, the difference is purely a matter of
     style; the keywords [Example] and [Theorem] (and a few others,
     including [Lemma], [Fact], and [Remark]) mean exactly the same
     thing to Coq.
-
     Secondly, we've added the quantifier [forall n:nat], so that our
     theorem talks about _all_ natural numbers [n].  In order to prove
     theorems of this form, we need to to be able to reason by
@@ -636,7 +620,6 @@ Proof.
     is achieved in the proof by [intros n], which moves the quantifier
     from the goal to a "context" of current assumptions. In effect, we
     start the proof by saying "OK, suppose [n] is some arbitrary number."
-
     The keywords [intros], [simpl], and [reflexivity] are examples of
     _tactics_.  A tactic is a command that is used between [Proof] and
     [Qed] to tell Coq how it should check the correctness of some
@@ -682,12 +665,10 @@ Theorem plus_id_example : forall n m:nat,
     [n] and [m], this theorem talks about a more specialized property
     that only holds when [n = m].  The arrow symbol is pronounced
     "implies."
-
     As before, we need to be able to reason by assuming the existence
     of some numbers [n] and [m].  We also need to assume the hypothesis
     [n = m]. The [intros] tactic will serve to move all three of these
     from the goal into assumptions in the current context. 
-
     Since [n] and [m] are arbitrary numbers, we can't just use
     simplification to prove this theorem.  Instead, we prove it by
     observing that, if we are assuming [n = m], then we can replace
@@ -707,7 +688,6 @@ Proof.
     name [H].  The third tells Coq to rewrite the current goal ([n + n
     = m + m]) by replacing the left side of the equality hypothesis
     [H] with the right side.
-
     (The arrow symbol in the [rewrite] has nothing to do with
     implication: it tells Coq to apply the rewrite from left to right.
     To rewrite from right to left, you can use [rewrite <-].  Try
@@ -801,7 +781,6 @@ Proof.
     disappears and we are left with the other "in focus.")  In this
     proof, each of the subgoals is easily proved by a single use of
     [reflexivity].
-
     The annotation "[as [| n']]" is called an _intro pattern_.  It
     tells Coq what variable names to introduce in each subgoal.  In
     general, what goes between the square brackets is a _list_ of
@@ -809,7 +788,6 @@ Proof.
     empty, since the [O] constructor is nullary (it doesn't carry any
     data).  The second component gives a single name, [n'], since [S]
     is a unary constructor.
-
     The [destruct] tactic can be used with any inductively defined
     datatype.  For example, we use it here to prove that boolean
     negation is involutive -- i.e., that negation is its own
@@ -982,4 +960,3 @@ Fixpoint plus' (n : nat) (m : nat) : nat :=
 (** [] *)
 
 (** $Date: 2014-12-31 15:31:47 -0500 (Wed, 31 Dec 2014) $ *)
-

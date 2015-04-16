@@ -3,7 +3,7 @@ Require Export Assignment05_11.
 (* problem #12: 10 points *)
 
 
-Theorem exfalso : forall P : Prop,
+Lemma exfalso : forall P : Prop,
   False -> P.
 Proof.
 intros.

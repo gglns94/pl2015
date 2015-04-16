@@ -13,12 +13,12 @@ Proof. intros. induction m. simpl. reflexivity. simpl. rewrite IHm. reflexivity.
 
 Lemma plus_comm_1 : forall n, n + 1 = 1 + n.
 Proof. intros. induction n. reflexivity. simpl. rewrite IHn. simpl. reflexivity. Qed.
-
+(*
 Lemma plus_comm : forall n m, n + m = m + n.
 Proof. intros. induction n as [|n']. simpl. rewrite plus_n_O. reflexivity. rewrite plus_n_1.
   rewrite <- plus_assoc. rewrite plus_comm_1. rewrite plus_assoc. rewrite plus_assoc. rewrite IHn'. reflexivity.
 Qed.
-
+*)
 Theorem plus_lt : forall n1 n2 m,
   n1 + n2 < m ->
   n1 < m /\ n2 < m.
