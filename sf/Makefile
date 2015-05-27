@@ -222,7 +222,24 @@ VFILES:=Assignment01.v\
   Assignment08_16.v\
   Assignment08_17.v\
   Assignment08_18.v\
+<<<<<<< HEAD
   Assignment08_19.v
+>>>>>>> upstream/master
+=======
+  Assignment08_19.v\
+  Assignment09_00.v\
+  Assignment09_01.v\
+  Assignment09_02.v\
+  Assignment09_03.v\
+  Assignment09_04.v\
+  Assignment09_05.v\
+  Assignment09_06.v\
+  Assignment09_07.v\
+  Assignment09_08.v\
+  Assignment09_09.v\
+  Assignment09_10.v\
+  Assignment09_11.v\
+  Assignment09_12.v
 >>>>>>> upstream/master
 
 -include $(addsuffix .d,$(VFILES))
