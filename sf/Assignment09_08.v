@@ -49,7 +49,7 @@ Proof.
   intros. induction x. reflexivity. destruct x. reflexivity.
     apply ex_falso_quodlibet. apply H. omega.
 Qed.
-
+(*
 Lemma parity0or1': forall x,
   (parity x = 0 \/ parity x = 1)/\(parity (S x) = 0 \/ parity (S x) = 1).
 Proof.
@@ -66,6 +66,18 @@ Proof.
 assert (PO := parity0or1').
 intros. apply (PO x).
 Qed.
+*)
+(*    {{ X = m }} ->>                              (a - OK)
+    {{ parity X = parity m }}
+  WHILE 2 <= X DO
+      {{ parity X = parity m /\ 2 <= X }}  ->>    (c - OK)
+      {{ parity (X-2) = parity m }}
+    X ::= X - 2
+      {{ parity X = parity m }}
+  END
+    {{ parity X = parity m /\ X < 2 }}  ->>       (b - OK)
+    {{ X = parity m }}
+*)
 
 Theorem parity_correct : forall m,
     {{ fun st => st X = m }}
@@ -74,6 +86,21 @@ Theorem parity_correct : forall m,
   END
     {{ fun st => st X = parity m }}.
 Proof.
+intros.
+eapply hoare_consequence with (P' := fun st:state => parity (st X) = parity m).
+eapply hoare_while.
+eapply hoare_consequence_pre.
+eapply hoare_asgn.
+intros st H. unfold assn_sub. unfold update. simpl.
+induction H. unfold beval in H0. apply ble_nat_true in H0. simpl in H0.
+assert (GE := (parity_ge_2 (st X) H0)). omega.
+intros st H. rewrite H. reflexivity.
+intros st H. induction H. unfold beval in H0. apply ble_nat_false in H0. simpl in H0.
+assert (LT := (parity_lt_2 (st X) H0)). omega.
+Qed.
+
+
+(*
 intros.
 destruct (parity0or1 m);
 assert (Hp := H); clear H.
@@ -112,6 +139,7 @@ apply parity_lt_2 in H0. omega.
 
 unfold assert_implies. intros. rewrite <- H in Hp. apply Hp.
 Qed.
+*)
 
 (*-- Check --*)
 Check parity_correct : forall m,

@@ -15,6 +15,22 @@ Require Export Assignment09_06.
     specification of [add_slowly]; then (informally) decorate the
     program accordingly. *)
 
+(*
+{{ X = n /\ Y = m }} ->>
+{{ X + Y = n + m }}
+WHILE X <> 0 DO
+  {{ X + Y = n + m /\ X <> 0 }}->>
+  {{ X + Y = n + m }}[X|->X-1][Y|->Y+1]
+  Y ::= Y + 1;;
+  {{ X + Y = n + m }}[X|->X-1]
+  X ::= X - 1
+  {{ X + Y = n + m }}
+END
+{{ X + Y = n + m /\ X = 0 }} ->>
+{{ Y = n + m }}
+*)
+
+
 Theorem slow_addition_dec_correct : forall n m,
   {{fun st => st X = n /\ st Y = m }}
   WHILE BNot (BEq (AId X) (ANum 0)) DO
@@ -23,6 +39,19 @@ Theorem slow_addition_dec_correct : forall n m,
   END
   {{fun st => st Y = n + m}}.
 Proof.
+intros.
+eapply hoare_consequence with (P' := fun st:state => st X + st Y = n + m).
+eapply hoare_while.
+eapply hoare_consequence_pre.
+eapply hoare_seq.
+eapply hoare_asgn.
+eapply hoare_asgn.
+intros st H. induction H. simpl in H0. apply negb_true in H0. apply beq_nat_false in H0.
+unfold assn_sub. unfold update. simpl. omega.
+intros st H. induction H. omega.
+intros st H. induction H. simpl in H0. apply negb_false in H0. apply beq_nat_true in H0. omega.
+Qed.
+(*
 induction n.
 
 unfold hoare_triple. intros. simpl. inversion H; subst.
@@ -44,7 +73,8 @@ eapply hoare_while.
   simpl in H0. apply negb_false in H0. apply beq_nat_true in H0. rewrite H0 in H. apply H.
   unfold assert_implies. intros. induction H.
   rewrite H. rewrite H0. reflexivity.
-Qed.
+Qed
+*)
 
 (*-- Check --*)
 Check slow_addition_dec_correct : forall n m,

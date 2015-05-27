@@ -17,19 +17,18 @@ Require Export Assignment09_08.
     {{ Y = m! }}
 
     Fill in the blanks in following decorated program:
-    {{ X = m }} ->>
-    {{                                      }}
+    {{ X = m }}
   Y ::= 1;;
-    {{                                      }}
+    {{  Y * X! = m!}}
   WHILE X <> 0
-  DO   {{                                      }} ->>
-       {{                                      }}
+  DO   {{ Y * X! = m! /\ X <> 0}} ->>
+       {{ (Y * X) * (X - 1)! = m! }}
      Y ::= Y * X;;
-       {{                                      }}
+       {{ Y * (X -1)! = m!  }}
      X ::= X - 1
-       {{                                      }}
+       {{ Y * X! = m! }}
   END
-    {{                                      }} ->>
+    {{ Y * X! = m! /\ X = 0}} ->>
     {{ Y = m! }}
 *)
 
@@ -45,6 +44,27 @@ Theorem factorial_dec_correct: forall m,
   END
   {{ fun st => st Y = fact m }}.
 Proof.
+intros.
+eapply hoare_seq with (Q:=fun st:state => (st Y) * fact (st X) = fact m).
+eapply hoare_consequence_post.
+eapply hoare_while.
+eapply hoare_consequence_pre.
+eapply hoare_seq.
+eapply hoare_asgn.
+eapply hoare_asgn.
+intros st H. unfold assn_sub. unfold update. simpl.
+induction H. simpl in H0. apply negb_true in H0. apply beq_nat_false in H0.
+destruct (st X). omega. simpl in H. simpl. rewrite <- minus_n_O. rewrite <- mult_assoc.
+rewrite (mult_comm (S n) (fact n)). rewrite <- mult_n_Sm.
+rewrite plus_comm. rewrite (mult_comm (fact n) n). apply H.
+intros st H. induction H. simpl in H0. apply negb_false in H0. apply beq_nat_true in H0.
+rewrite H0 in H. simpl in H. omega.
+unfold hoare_triple. intros.
+inversion H. subst. unfold update. simpl. omega.
+Qed.
+
+(*
+rewrite <- mult_assoc. rewrite <- H. 
 intros.
 eapply hoare_seq with (Q:=(fun st:state => (st X = m)/\(st Y = 1))).
 eapply hoare_consequence with (P':=(fun st:state => (st Y) * fact (st X) = fact m)).
@@ -65,7 +85,7 @@ unfold assert_implies. intros. induction H. simpl in H0. apply negb_false in H0.
 rewrite H0 in H. simpl in H. omega.
 unfold hoare_triple. intros. inversion H. subst. unfold update. simpl. split; reflexivity.
 Qed.
-
+*)
 (*-- Check --*)
 Check factorial_dec_correct: forall m,
   {{ fun st => st X = m }} 

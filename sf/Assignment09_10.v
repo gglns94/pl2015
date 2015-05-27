@@ -20,32 +20,33 @@ Require Export Assignment09_09.
     following decorated program.
 
     {{ True }} ->>
-    {{                                        }}
+    {{ True }}[Z|->c][Y|->0][X|->0]
   X ::= 0;;
-    {{                                        }}
+    {{ True }}[Z|->c][Y|->0]
   Y ::= 0;;
-    {{                                        }}
+    {{ True }}[Z|->c]
   Z ::= c;;
-    {{                                        }}
+    {{ True }} ->>
+    {{ Z = X + c /\ Y = 0 }}
   WHILE X <> a DO
-      {{                                        }} ->>
-      {{                                        }}
+      {{  }} ->>
+      {{  }}
     X ::= X + 1;;
-      {{                                        }}
+      {{  }}
     Z ::= Z + 1
-      {{                                        }}
+      {{  }}
   END;;
-    {{                                        }} ->>
-    {{                                        }}
+    {{ Z = X + c /\ Y = 0 /\ X = a }} ->>
+    {{ Z = Y + c + a }}
   WHILE Y <> b DO
-      {{                                        }} ->>
-      {{                                        }}
+      {{  }} ->>
+      {{  }}
     Y ::= Y + 1;;
-      {{                                        }}
+      {{  }}
     Z ::= Z + 1
-      {{                                        }}
+      {{  }}
   END
-    {{                                        }} ->>
+    {{ Z = Y + c + a /\ Y = a}} ->>
     {{ Z = a + b + c }}
 *)
 
@@ -65,6 +66,34 @@ Theorem add_three_numbers_correct: forall a b c,
   {{ fun st => st Z = a + b + c }}.
 Proof.
 intros.
+eapply hoare_consequence_pre with (P':=(fun st:state => st Z = c /\ st Y = 0 /\ st X = 0)[Z|->ANum c][Y|->ANum 0][X|->ANum 0]).
+eapply hoare_seq; try (apply hoare_asgn).
+eapply hoare_seq; try (apply hoare_asgn).
+eapply hoare_seq; try (apply hoare_asgn).
+eapply hoare_seq with (Q := fun st:state => st Z = st X + c /\ st Y = 0 /\ st X = a).
+eapply hoare_consequence with (P' := fun st:state => st Z = st Y + c + a).
+eapply hoare_while.
+eapply hoare_consequence_pre.
+eapply hoare_seq.
+eapply hoare_asgn.
+eapply hoare_asgn.
+intros st H. unfold assn_sub. unfold update. simpl. omega.
+intros st H. omega.
+intros st H. induction H. simpl in H0.
+apply negb_false in H0. apply beq_nat_true in H0. omega.
+eapply hoare_consequence with (P' := fun st : state => st Z = st X + c /\ st Y = 0).
+eapply hoare_while.
+eapply hoare_consequence_pre.
+eapply hoare_seq.
+eapply hoare_asgn.
+eapply hoare_asgn.
+intros st H. unfold assn_sub. unfold update. simpl. omega.
+intros st H. omega.
+intros st H. induction H. simpl in H0.
+apply negb_false in H0. apply beq_nat_true in H0. omega.
+intros st H. unfold assn_sub. unfold update. simpl. omega.
+Qed.
+(*
 eapply hoare_seq with (Q := (fun st : state => st X = 0)).
 eapply hoare_seq with (Q := (fun st : state => st X = 0 /\ st Y = 0)).
 eapply hoare_seq with (Q := (fun st : state => st X = 0 /\ st Y = 0 /\ st Z = c)).
@@ -92,7 +121,7 @@ unfold hoare_triple. intros. inversion H. subst. unfold update. simpl. omega.
 unfold hoare_triple. intros. inversion H. subst. unfold update. simpl. omega.
 unfold hoare_triple. intros. inversion H. subst. unfold update. simpl. reflexivity.
 Qed.
-
+*)
 (*-- Check --*)
 Check add_three_numbers_correct: forall a b c,
   {{ fun st => True }}                                   
