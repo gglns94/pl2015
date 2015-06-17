@@ -271,9 +271,21 @@ VFILES:=Assignment01.v\
   Assignment11_07.v\
   Assignment11_08.v\
   Assignment11_09.v\
+<<<<<<< HEAD
   Assignment11_10.v
 >>>>>>> upstream/master
 
+=======
+  Assignment11_10.v\
+  Assignment12_00.v\
+  Assignment12_01.v\
+  Assignment12_02.v\
+  Assignment12_03.v\
+  Assignment12_04.v\
+  Assignment12_05.v\
+  Assignment12_06.v
+ 
+>>>>>>> upstream/master
 -include $(addsuffix .d,$(VFILES))
 .SECONDARY: $(addsuffix .d,$(VFILES))
 
